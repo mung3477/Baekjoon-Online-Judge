@@ -32,12 +32,12 @@ int main()
     }
     
     for (int i = 0; i < N - 1; i++) {
-        //탐색 공간 내 다음 용액으로 제한
+        //탐색 공간 보고있는 용액의 다음 용액들로 제한
         int cur = fluids.at(i), index = lower_bound(i + 1, N - 1, -cur);
-        //작지만 제일 큰 거, 크지만 제일 작은 거 둘을 봄
+        //작지만 제일 큰 거, 크거나 같지만 제일 작은 거 둘을 봄
         for (int j = index - 1; j <= index; j++) {
-            //out of index와 자기 자신은 보면 안됨
-            if (j < 0 || i == j || N - 1 < j) continue;
+            //자기 자신은 보면 안됨
+            if (i == j) continue;
             
             if (abs(cur + fluids.at(j)) < minAbs) {
                 minAbs = abs(cur + fluids.at(j));
