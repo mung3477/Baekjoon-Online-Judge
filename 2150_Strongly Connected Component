@@ -1,0 +1,105 @@
+#include <iostream>
+#include <vector>
+#include <list>
+#include <stack>
+#include <algorithm>
+#include <utility>
+using std::cin;
+using std::cout;
+using std::vector;
+using std::list;
+using std::stack;
+using std::fill;
+using std::sort;
+using std::move;
+
+list<short> *map, *reversedMap;
+vector<vector<short>> SCC;
+stack<short> DFSResult;
+
+void DFS(const short& cur, bool *visited);
+void reverseDFSCall(const short& cur, bool *visited);
+void reverseDFS(const short& cur, bool *visited);
+
+struct CompVector {
+    bool operator() (const vector<short>& A, const vector<short>& B) {
+        return A.front() < B.front();
+    }
+} compVector;
+
+int main(void) {
+    std::ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    short V, from, to;
+    int E;
+    cin >> V >> E;
+
+    map = new list<short>[V + 1]{};
+    reversedMap = new list<short>[V + 1]{};
+
+    for (int i = 1; i <= E; i++) {
+        cin >> from >> to;
+        map[from].push_back(to);
+        reversedMap[to].push_back(from);
+    }
+
+    bool visited[V + 1]{};
+    DFS(1, visited);
+    for (int i = 1; i <= V; i++) {
+        if (!visited[i]) DFS(i, visited);
+    }
+
+    fill(visited, &visited[V + 1], false);
+    while (!DFSResult.empty()) {
+        short cur = DFSResult.top();
+        DFSResult.pop();
+        if (!visited[cur]) reverseDFSCall(cur, visited);
+    }
+
+    sort(SCC.begin(), SCC.end(), compVector);
+
+    cout << SCC.size() << "\n";
+
+    for (auto it = SCC.begin(); it != SCC.end(); it++) {
+        for (short v : *it) {
+            cout << v << " ";
+        }
+        cout <<  "-1\n";
+    }
+
+    return 0;
+}
+
+void DFS(const short& cur, bool *visited) {
+    visited[cur] = true;
+
+    for (auto it = map[cur].begin(); it != map[cur].end(); it++) {
+        if (!visited[*it]) {
+            DFS(*it, visited);
+        }
+    }
+
+    DFSResult.push(cur);
+}
+
+void reverseDFSCall(const short& cur, bool *visited) {
+    vector<short> temp(1, cur);
+    SCC.emplace_back(move(temp));
+
+    reverseDFS(cur, visited);
+
+    sort(SCC[SCC.size() - 1].begin(), SCC[SCC.size() - 1].end());
+}
+
+void reverseDFS(const short& cur, bool *visited) {
+    visited[cur] = true;
+
+    for (auto it = reversedMap[cur].begin(); it != reversedMap[cur].end(); it++) {
+        if (!visited[*it]) {
+            SCC[SCC.size() - 1].push_back(*it);
+            reverseDFS(*it, visited);
+        }
+    }
+}
