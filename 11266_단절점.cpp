@@ -71,7 +71,7 @@ int DFS(int cur, int root, int& curNum) {
          * 2. if current node is root, it should have at least 2 children
          * 
         */
-        if ((childHighestReachable >= DFSNum[cur]) && (cur != root)) {
+        if ((childHighestReachable == DFSNum[cur]) && (cur != root)) {
             ArticulationPoints.insert(cur);
         }
         highestReachable = min(highestReachable, childHighestReachable);
