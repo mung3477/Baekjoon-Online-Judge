@@ -46,7 +46,7 @@ int main(void) {
 
     ArticulationPoints.clear();
     for (int i = 1; i <= V; i++) graph[i].clear();
-    delete[] graph, visited, DFSNum;
+    delete[] graph, DFSNum;
     
     return 0;
 }
@@ -71,7 +71,7 @@ int DFS(int cur, int root, int& curNum) {
          * 2. if current node is root, it should have at least 2 children
          * 
         */
-        if ((childHighestReachable >= DFSNum[cur]) && (cur != root))) {
+        if ((childHighestReachable >= DFSNum[cur]) && (cur != root)) {
             ArticulationPoints.insert(cur);
         }
         highestReachable = min(highestReachable, childHighestReachable);
