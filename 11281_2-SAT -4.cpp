@@ -75,9 +75,7 @@ int main(void) {
         }
 
         for (int i = 1; i <= N; i++) {
-            int cur = 2 * i;
-            if (variables[cur] == - 1) variables[cur] = !variables[negative(cur)];
-            cout << variables[cur] << " ";
+            cout << variables[2 * i] << " ";
         }
     }
 
