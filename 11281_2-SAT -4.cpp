@@ -70,9 +70,8 @@ int main(void) {
     if (able) {
         // SCC 번호 큰 것부터 역순으로 순회. 이러면 SCC를 위상정렬한 순서대로 도는 것과 동일.
         for (int i = SCCs.size() - 1; 0 <= i; i--) {
-            for (const int& cur : SCCs[i]) {
-                variables[cur] = (variables[negative(cur)] == - 1 ? 0 : 1);
-            }
+            bool curSCCVal = (variables[negative(SCCs[i][0])] == -1 ? 0 : !variables[negative(SCCs[i][0])]);
+            for (const int& cur : SCCs[i]) variables[cur] = curSCCVal;
         }
 
         for (int i = 1; i <= N; i++) {
