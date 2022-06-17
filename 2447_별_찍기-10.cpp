@@ -31,14 +31,6 @@ int main(void)
             for (int j = 0; j < P_size; j++)
                 P[P_size * i + j] = ' ';
         compose(P, P_size, std::log2(P_size) / std::log2(3), 0, 0);
-        /* for (int i = 0; i < P_size; i++)
-        {  
-            if (i)
-                std::cout << '\n';
-            for (int j = 0; j < P_size; j++)
-                std::cout << P[i * P_size + j];
-        } */
-        print(P, P_size);
         free(P);
     }
     return (0);
